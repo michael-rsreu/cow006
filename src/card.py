@@ -13,4 +13,20 @@ class Card:
         self.score = score
 
     def __repr__(self):
-        return f'{self.number}{self.score}'
+        return f'{self.number}({self.score})'
+
+    def save(self):
+        return repr(self)
+
+    def score(self, point):
+        if self.number == 55:
+            self.point += 7
+        elif self.number % 11 == 0:
+            self.point += 5
+        elif self.number % 10 == 0:
+            self.point += 3
+        elif self.number % 5 == 0 and self.number % 10 != 0:
+            self.point += 2
+        else:
+            self.point += 1
+        return point
