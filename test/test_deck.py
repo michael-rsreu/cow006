@@ -66,3 +66,9 @@ def test_draw_card():
 
     assert d.draw_card() == Card.load('10')
     assert len(d.cards) == 0
+
+def test_draw_card_1():
+    d = Deck.load('10 12 55')
+    c = d.draw_card()
+    assert c == Card(55)
+    assert d.save() == '10 12'
