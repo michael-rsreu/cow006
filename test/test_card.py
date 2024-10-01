@@ -5,7 +5,7 @@ def test_init():
     assert c.number == 55
     assert c.score() == 7
 
-def test_save():    # Не фурычит(
+def test_save():
     c = Card(55)
     assert repr(c) == '55(7)'
     assert c.save() == '55(7)'

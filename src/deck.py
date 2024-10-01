@@ -24,7 +24,7 @@ class Deck:
 
     @classmethod
     def load(cls, text: str) -> typing.Self:
-        """Convert string in 'b4 g7 y0' format to Deck. Return deck."""
+        """Создание списка карт из строки"""
         cards = [Card.load(s) for s in text.split()]
         return cls(cards=cards)
 
@@ -33,3 +33,7 @@ class Deck:
         scards = [c.save() for c in self.cards]
         s = ' '.join(scards)
         return s
+
+    def draw_card(self):
+        """Берем карту из колоды и возвращаем ее."""
+        return self.cards.pop()

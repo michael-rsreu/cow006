@@ -9,7 +9,7 @@ class Card:
         self.number = number
 
     def __repr__(self):
-        return f'{self.number}({self.score})'
+        return f'{self.number}({self.score()})'
 
     def __eq__(self, other):    #а надо ли eq, если такое же сравнение есть в can_play_on
         return self.number == other.number
