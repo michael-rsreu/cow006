@@ -13,15 +13,15 @@ def test_repr():
     d = Deck(cards)
     d1 = Deck([Card(10)])
 
-    assert d.__repr__() == "8(1) 13(1) 55(7) 44(5) 3(1)"
-    assert d1.__repr__() == "10(3)"
+    assert d.__repr__() == "8 13 55 44 3"
+    assert d1.__repr__() == "10"
 
 def test_save():
-    d = Deck(cards = cards)
-    assert d.save() == '8(1) 13(1) 55(7) 44(5) 3(1)'
+    d = Deck(cards=cards)
+    assert d.save() == '8 13 55 44 3'
 
-    d = Deck(cards = [Card(10), Card(55), Card(12)])
-    assert d.save() == '10(3) 55(7) 12(1)'
+    d = Deck(cards=[Card(10), Card(55), Card(12)])
+    assert d.save() == '10 55 12'
 
 def test_load():
     d = Deck.load('8 13 55 44 3')
@@ -52,7 +52,17 @@ def test_shuffle_2():
     deck.shuffle()
     assert deck.save() != deck1
 
-def test_draw_card():  # ne rabotaet
-    d = Deck.load([10, 12, 55])
-    assert d.draw_card() == Card.load('10(3)')
-    assert d == '12(1) 55(7)'
+def test_draw_card():
+    d = Deck.load('10 12 55')
+    d1 = Deck.load('10 12')
+
+    assert d.draw_card() == Card.load('55')
+    assert d == d1
+    assert len(d.cards) == 2
+
+    assert d.draw_card() == Card.load('12')
+    assert d != d1
+    assert len(d.cards) == 1
+
+    assert d.draw_card() == Card.load('10')
+    assert len(d.cards) == 0

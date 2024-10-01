@@ -7,12 +7,14 @@ def test_init():
 
 def test_save():
     c = Card(55)
-    assert repr(c) == '55(7)'
-    assert c.save() == '55(7)'
+    assert str(c) == '55(7)'
+    assert repr(c) == '55'
+    assert c.save() == '55'
 
     c = Card(13)
-    assert repr(c) == '13(1)'
-    assert c.save() == '13(1)'
+    assert str(c) == '13(1)'
+    assert repr(c) == '13'
+    assert c.save() == '13'
 
 def test_score():
     c = Card(55)
