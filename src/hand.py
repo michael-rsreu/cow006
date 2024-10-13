@@ -28,3 +28,12 @@ class Hand:
         """Создание списка карт из строки"""
         cards = [Card.load(s) for s in text.split()]
         return cls(cards=cards)
+
+    def add_card(self, card: Card):
+        return self.cards.append(card)
+
+    def remove_card(self, card: Card):
+        return self.cards.remove(card)
+
+    def score(self) -> int:
+        return sum(c.score() for c in self.cards)
