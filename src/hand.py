@@ -5,12 +5,14 @@ from src.card import Card
 class Hand:
     def __init__(self, cards:  list[Card] = None):
         if cards is None:
-            #для пустой руки
             cards = []
         self.cards: list[Card] = cards
 
+    def __str__(self):
+        return ' '.join([f'{card}({card.score()})' for card in self.cards])
+
     def __repr__(self):
-        return self.save()
+        return ' '.join(f'{card}' for card in self.cards)
 
     def __eq__(self, other):
         if isinstance(other, str):

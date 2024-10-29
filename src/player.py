@@ -8,8 +8,14 @@ class Player:
         self.hand = hand
         self.score = score
 
+    # def __str__(self):
+    #     return f'{self.name}({self.score}): {self.hand}'
+
     def __str__(self):
-        return f'{self.name}({self.score}): {self.hand}'
+        return f'{self.name}({self.score}): {str(self.hand)}'
+
+    def __repr__(self):
+        return f'{self.name}({self.score}): {repr(self.hand)}'
 
     def __eq__(self, other: typing.Self | str | dict):
         if isinstance(other, str):

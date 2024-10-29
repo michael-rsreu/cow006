@@ -2,16 +2,18 @@ from src.card import Card
 from src.hand import Hand
 
 cards = [Card(8), Card(13), Card(55), Card(44), Card(3)]
+cards_text = "8(1) 13(1) 55(7) 44(5) 3(1)"
+cards_text1 = "8 13 55 44 3"
 
 def test_init():
     d = Hand(cards=cards)
     assert d.cards == cards
 
 def test_repr():
-    d = Hand(cards)
+    d = Hand(cards)             # не работает
     d1 = Hand([Card(10)])
 
-    assert d.__repr__() == "8 13 55 44 3"
+    assert d.__repr__() == cards_text1
     assert d1.__repr__() == "10"
     assert Hand([Card(3)]).__repr__() == "3"
 

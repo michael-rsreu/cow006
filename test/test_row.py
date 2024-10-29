@@ -11,7 +11,7 @@ def test_repr():
     r = Row()
     assert r.__repr__() == ''
 
-    r.add_card(Card.load('13'))      # Сомневаюсь, что так правильно
+    r.add_card(Card.load('13'))
     assert r.__repr__() == '13'
 
 def test_add_card():
@@ -24,14 +24,14 @@ def test_add_card():
 def test_max_lengh():
     r = Row()
     r.add_card(Card(5))
-    assert r.has_max_lengh() == False
+    assert not r.has_max_lengh()
 
     r.add_card(Card(11))
     r.add_card(Card(13))
     r.add_card(Card(103))
     r.add_card(Card(100))
     r.add_card(Card(3))
-    assert r.has_max_lengh() == True
+    assert r.has_max_lengh()
 
 def test_truncate():
     r = Row()
@@ -41,8 +41,8 @@ def test_truncate():
 
 def test_can_play_on():
     r = Row()
-    assert r.can_play_on(Card(2)) == True
+    assert r.can_play_on(Card(20))
 
     r.add_card(Card(21))
-    assert r.can_play_on(Card(20)) == None  # А точнее False
-    assert r.can_play_on(Card(22)) == True
+    assert not r.can_play_on(Card(20))
+    assert r.can_play_on(Card(22))

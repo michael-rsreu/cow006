@@ -1,20 +1,18 @@
 class Card:
     NUMBERS = list(range(1,105))
-    #SCORE = [1, 2, 3, 5, 7]
-    #COLORS = ['g', 'b', 'y', 'o', 'p']
 
     def __init__(self, number: int):
         if number not in Card.NUMBERS:
             raise ValueError
         self.number = number
 
-    def __str__(self):
-        return f'{self.number}({self.score()})'
-
     def __repr__(self):
         return f'{self.number}'
 
-    def __eq__(self, other):    #а надо ли eq, если такое же сравнение есть в can_play_on
+    def __str__(self):
+        return f'{self.number}({self.score()})'
+
+    def __eq__(self, other):
         return self.number == other.number
 
     def save(self):
@@ -36,10 +34,9 @@ class Card:
         return self.number > other.number
 
     def load(text: str):
-        #По идее нам не надо вводить штрафные очки каждой карты, т.к. они определяются в Score
         return Card(number=int(text))
 
-    def all_cards(numbers: None | list[int] = None):     # Нужна ли она вообще
+    def all_cards(numbers: None | list[int] = None):
         if numbers is None:
             numbers = Card.NUMBERS
         cards = [Card(number=num) for num in numbers]

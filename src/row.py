@@ -2,26 +2,33 @@ from src.card import Card
 
 class Row:
 
+    MAX_LEN = 6
+
     def __init__(self):
         self.cards: list[Card] = []
 
     def __repr__(self):
-        return ' '.join(repr(card) for card in self.cards)
+        return ' '.join(card.__str__() for card in self.cards)
 
-    def add_card(self, card: Card):  # Метод такой же, что и в классе Hand. Просто добавляет в ряд карту без проверки условия.
+    def add_card(self, card: Card):
         return self.cards.append(card)
 
     def has_max_lengh(self) -> bool:
-        return len(self.cards) == 6
+        return len(self.cards) == self.MAX_LEN
 
     def truncate(self):
         self.cards.clear()
 
     def can_play_on(self, card: Card) -> bool:
-        if not self.cards:   # Есть ли вообще карта в ряду?
-            self.cards.append(card)
-            return True
-        else:
-            if card.can_play_on(self.cards[-1]):     # Меньше ли номинал карты, которую хотим положить?
-                self.cards.append(card)
-                return True
+        return not self.cards or card.can_play_on(self.cards[-1])
+
+    def save(self) -> str:
+        return ' '.join(card.save() for card in self.cards)
+
+    @staticmethod
+    def load(data: str) -> 'Row':
+        row = Row()
+        list_cards = data.split(' ')
+        for card in list_cards:
+            row.add_card(Card.load(card))
+        return row
