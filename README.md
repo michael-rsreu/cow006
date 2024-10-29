@@ -116,28 +116,24 @@ Masha Lose!
 
 ```json
 {
-  "row1": "o5",
-  "row2": "g6",
-  "row3": "y80",
-  "row4": "g24",
+  "table":{
+  "row1": "5",
+  "row2": "6",
+  "row3": "80",
+  "row4": "24",
+  }
+  "deck": "",
   "current_player_index": 0,
   "players": [
     {
       "name": "Misha",
-      "hand": "g53, g13, b15, g18, v55, o77, y100, y20, o22, g9",
-      "is_human": true
+      "hand": "53, 13, 15, 18, 55, 77, 100, 20, 22, 9",
+      "score": 0
     },
     {
-      "name": "Masha",
-      "hand": "y10, o11, g103, o44, g14, g62, g72, g73, b75, g1",
-      "is_human": false
+      "name": "Bot",
+      "hand": "10, 11, 103, 44, 14, 62, 72, 73, 75, 1",
+      "score": 0
     }
   ]
-  "score": [
-    {
-      "score_1": 0
-    },
-    {
-      "score_2": 0
-    }
 }

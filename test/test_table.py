@@ -2,8 +2,6 @@ import json
 from src.card import Card
 from src.row import Row
 from src.table import Table
-from src.player import Player
-from src.hand import Hand
 
 def test_init():
     table = Table()
