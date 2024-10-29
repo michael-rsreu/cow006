@@ -8,9 +8,6 @@ class Player:
         self.hand = hand
         self.score = score
 
-    # def __str__(self):
-    #     return f'{self.name}({self.score}): {self.hand}'
-
     def __str__(self):
         return f'{self.name}({self.score}): {str(self.hand)}'
 
@@ -29,7 +26,7 @@ class Player:
         )
 
     def save(self) -> dict:
-        return {"name": self.name, "hand": str(self.hand), "score": self.score}
+        return {"name": self.name, "hand": repr(self.hand), "score": self.score}     #  str(self.hand) --> repr(self.hand)
 
     @classmethod
     def load(cls, data: dict):
