@@ -13,7 +13,7 @@ def test_init():
 def test_str():
     h = Hand.load("55 103 44")
     p = Player(name="Alex", hand=h, score=15)
-    assert str(p) == "Alex(15): 55 103 44"    # В строке рядом с номиналом карт в скобках их очки должны писаться. Как это сделать?
+    assert str(p) == "Alex(15): 55(7) 103(1) 44(5)"
 
 
 def test_save():

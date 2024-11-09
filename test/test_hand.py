@@ -10,7 +10,7 @@ def test_init():
     assert d.cards == cards
 
 def test_repr():
-    d = Hand(cards)             # не работает
+    d = Hand(cards)
     d1 = Hand([Card(10)])
 
     assert d.__repr__() == cards_text1
