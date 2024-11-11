@@ -64,3 +64,10 @@ class GameState:
     def next_player(self):
         """Ход переходит к следующему игроку."""
         self._current_player = (self._current_player + 1) % len(self.players)
+
+    def play_card(self, card: Card, player: Player) -> bool:
+        """Текущий игрок игреат карту"""
+        if card not in player.hand.cards:
+            raise ValueError(f"{player.name} не имеет карты {card} в руке.")
+        player.hand.remove_card(card)
+        return self.table.add_card(card)
