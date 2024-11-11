@@ -43,7 +43,7 @@ class GameServer:
                 kind = player_data['kind']
                 kind = getattr(all_player_types, kind)
                 player_types[player] = kind
-            return GameServer(player_types = player_types, game_state = game_state)
+            return GameServer(player_types=player_types, game_state=game_state)                 # ЖАЛУЕТСЯ
 
     def save(self):
         filename = 'cow006.json'
@@ -124,7 +124,7 @@ class GameServer:
             row.add_card(deck.draw_card())
         game_state = GameState(list(player_types.keys()), deck, table)
 
-        res = cls(player_types, game_state)
+        res = cls(player_types, game_state)                         # ЖАЛУЕТСЯ
         res.deal_cards_phase()
         return res
 
@@ -149,7 +149,7 @@ class GameServer:
     def choose_card_phase(self) -> GamePhase:
         current_player = self.game_state.current_player()
         card = self.player_types[current_player].choose_card(current_player.hand, self.game_state.table)
-        self.inform_all(f'Карта выбрана игроком {current_player}')
+        self.inform_all('inform_card_chosen', {current_player})
         if card:
             self.chosen_cards[current_player] = card
 
@@ -190,14 +190,14 @@ class GameServer:
                 else:
                     print(f"Карту игрока {player.name}({player.score}) невозможно добавить на стол")
                     row_index = self.player_types[player].choose_row(self.game_state.table, player)         # Определение номера забираемого ряда
-                    self.inform_all("Ряд будет убран со стола", player, row_index)
+                    self.inform_all("inform_row_chosen", player, row_index)
                     points = self.game_state.table.rows[row_index].truncate()                               # Подсчет штрафных очков в ряду и прибавление к счету игрока
                     player.score += points
                     print(f"{player.name}({player.score}): забирает ряд {row_index + 1}.\n"
                           f"\tКарта {card} становится 1-й в ряду {row_index + 1}")
                     self.game_state.table.rows[row_index].add_card(card)
                     player.hand.remove_card(card)
-                    self.inform_all("Карта была сыграна", card)
+                    self.inform_all("inform_card_played", card)
             except ValueError as e:
                 print(str(e))
 
