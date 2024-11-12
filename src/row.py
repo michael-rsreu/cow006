@@ -17,7 +17,11 @@ class Row:
         return len(self.cards) == self.MAX_LEN
 
     def truncate(self):
+        total_sum = 0
+        for card in self.cards:
+            total_sum += card.score()
         self.cards.clear()
+        return total_sum
 
     def can_play_on(self, card: Card) -> bool:
         return not self.cards or card.can_play_on(self.cards[-1])
