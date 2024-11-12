@@ -26,7 +26,7 @@ class GameServer:
     INITIAL_HAND_SIZE = 10                                          # Кол-во карт в руке и ходов
     chosen_cards = {}                                               # Вместо add_selected_card
 
-    def __int__(self, player_types, game_state):
+    def __init__(self, player_types, game_state):
         self.game_state: GameState = game_state
         self.player_types: dict = player_types  # {player: PlayerInteractions}
         self.turn_number = 0
@@ -43,7 +43,7 @@ class GameServer:
                 kind = player_data['kind']
                 kind = getattr(all_player_types, kind)
                 player_types[player] = kind
-            return GameServer(player_types=player_types, game_state=game_state)                 # ЖАЛУЕТСЯ
+            return GameServer(player_types=player_types, game_state=game_state)
 
     def save(self):
         filename = 'cow006.json'
@@ -124,7 +124,7 @@ class GameServer:
             row.add_card(deck.draw_card())
         game_state = GameState(list(player_types.keys()), deck, table)
 
-        res = cls(player_types, game_state)                         # ЖАЛУЕТСЯ
+        res = cls(player_types, game_state)
         res.deal_cards_phase()
         return res
 
