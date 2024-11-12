@@ -12,7 +12,7 @@ class Human(PlayerInteraction):
         while True:
             try:
                 print('Карты в руке: ', hand)
-                card_text = input('Выберите карту: ')
+                card_text = int(input('Выберите карту: '))
                 for card in hand.cards:
                     if card.number == card_text:
                         return card
