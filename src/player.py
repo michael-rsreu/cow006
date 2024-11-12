@@ -25,6 +25,9 @@ class Player:
             and self.hand == other.hand
         )
 
+    def __hash__(self):
+        return hash(self.name)
+
     def save(self) -> dict:
         return {"name": self.name, "hand": repr(self.hand), "score": self.score}     #  str(self.hand) --> repr(self.hand)
 
