@@ -9,7 +9,7 @@ class Hand:
         self.cards: list[Card] = cards
 
     def __str__(self):
-        return ' '.join([f'{card.__str__()})' for card in self.cards])   # Было {card}({card.score()})
+        return ' '.join([f'{card.__str__()}' for card in self.cards])
 
     def __repr__(self):
         return ' '.join(f'{card.__repr__()}' for card in self.cards)

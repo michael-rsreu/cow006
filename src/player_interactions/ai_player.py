@@ -12,14 +12,13 @@ class Bot(PlayerInteraction):
     def choose_card(cls, hand: Hand, table: Table, hand_counts: list[int] | None = None) -> Card:
         """Выбор карты ботом и ввод"""
         chosen_card = choice(hand.cards)
-        print(f"Бот выбрал карту {chosen_card}")
         return chosen_card
 
     @classmethod
     def choose_row(cls, table: Table, card: Card) -> int:
         """Выбор ряда ботом и ввод"""
         chosen_row = randint(0, len(table.rows) - 1)
-        print(f"\tБот выбрал ряд {chosen_row+1}")
+        print(f"Бот выбрал ряд {chosen_row+1}")
         return chosen_row
 
     @classmethod

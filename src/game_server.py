@@ -1,6 +1,7 @@
 import enum
 import inspect
 import json
+from pathlib import Path
 
 from src.deck import Deck
 from src.game_state import GameState
@@ -32,8 +33,7 @@ class GameServer:
         self.turn_number = 0
 
     @classmethod
-    def load_game(cls):
-        filename = 'cow006.json'
+    def load_game(cls, filename: str | Path):
         with open(filename, 'r') as fin:
             data = json.load(fin)
             game_state = GameState.load(data)
@@ -45,8 +45,7 @@ class GameServer:
                 player_types[player] = kind
             return GameServer(player_types=player_types, game_state=game_state)
 
-    def save(self):
-        filename = 'cow006.json'
+    def save(self, filename: str | Path):
         data = self.save_to_dict()
         with open(filename, 'w') as fout:
             json.dump(data, fout, indent=4)
@@ -83,7 +82,7 @@ class GameServer:
     def request_player_count() -> int:
         while True:
             try:
-                player_count = int(input("Сколько всего игроков?"))
+                player_count = int(input("Сколько всего игроков?\n"))
                 if 2 <= player_count <= 10:
                     return player_count
             except ValueError:
@@ -101,14 +100,14 @@ class GameServer:
         player_types_as_str = ', '.join(player_types)
 
         while True:
-            name = input("Как зовут игрока?")
+            name = input("Как зовут игрока?\n")
             if name.isalpha():
                 break
             print("Имя должно состоять из одного слова и только из букв")
 
         while True:
             try:
-                kind = input(f"Кем является игрок ({player_types_as_str})?")
+                kind = input(f"Кем является игрок ({player_types_as_str})?\n")
                 kind = getattr(all_player_types, kind)
                 break
             except AttributeError:
@@ -179,30 +178,30 @@ class GameServer:
         print("\n--- Раскрытие выбранных карт ---")
         for player, card in self.chosen_cards.items():
             print(f"{player.name}({player.score}): {card}")
-        print("----------------------------------")
+        print("\n----------------------------------\n")
 
         for player, card in sorted(self.chosen_cards.items(), key=lambda x: x[1].number):
             print(f'{player.name}({player.score}): добавление карты {card}')
             try:
                 try_play = self.game_state.play_card(card, player)
                 if try_play:
-                    print(f'Карта игрока {player.name}({player.score}) добавлена в один из рядов')
+                    print(f'Карта игрока {player.name}({player.score}) добавлена в один из рядов\n')
                 else:
-                    print(f"Карту игрока {player.name}({player.score}) невозможно добавить на стол")
+                    print(f"Карту игрока {player.name}({player.score}) невозможно добавить на стол\n")
                     row_index = self.player_types[player].choose_row(self.game_state.table, player)         # Определение номера забираемого ряда
                     self.inform_all("inform_row_chosen", player, row_index)
                     points = self.game_state.table.rows[row_index].truncate()                               # Подсчет штрафных очков в ряду и прибавление к счету игрока
                     player.score += points
-                    print(f"{player.name}({player.score}): забирает ряд {row_index + 1}.\n"
-                          f"\tКарта {card} становится 1-й в ряду {row_index + 1}")
+                    print(f"{player.name}({player.score}): забирает ряд {row_index + 1} и получает {points} штрафных очков\n"
+                          f"Карта {card} становится 1-й в ряду {row_index + 1}\n")
                     self.game_state.table.rows[row_index].add_card(card)
-                    player.hand.remove_card(card)
                     self.inform_all("inform_card_played", card)
             except ValueError as e:
                 print(str(e))
+        print("----------------------------------")
 
         self.display_table_state()
-        self.CHOSEN_CARD = {}
+        self.chosen_cards = {}
         return GamePhase.NEXT_PLAYER
 
     def next_player_phase(self) -> GamePhase:
@@ -217,20 +216,23 @@ class GameServer:
         for player in sorted(self.game_state.players, key = lambda x: (x.score)):
             name = player.name
             score = player.score
-            print(name, score)
+            print(f'{name} - {score} очков')
 
-        print('Победитель:\n')
         min_score = min(player.score for player in self.game_state.players)
-        winner = [player for player in self.game_state.players if player.score == min_score]
-        print(winner)
+        winners = [player for player in self.game_state.players if player.score == min_score]
+        if len(winners) == 1:
+            print('Победитель: ')
+        else:
+            print('Победители: ')
+        for player in winners:
+            print(f'Игрок: {player.name}. Штрафные очки: {player.score}')
 
         return GamePhase.GAME_END
 
 def __main__():
     load_from_file = False
     if load_from_file:
-        server = GameServer.load_game()
-        server.save()
+        server = GameServer.load_game("cow006.json")
     else:
         server = GameServer.new_game(GameServer.get_player())
     server.run()
